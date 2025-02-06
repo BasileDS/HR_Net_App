@@ -1,0 +1,33 @@
+.pretty-table {
+    width: 100%;
+    border-collapse: separate;
+}
+
+.pretty-table thead {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.pretty-table thead tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.196);
+}
+
+.pretty-table thead tr th {
+    padding: 7px  10px;
+    text-align: left;
+}
+
+.pretty-table thead tr th.active {
+    background-color: #50a2ff23;
+    /* color: #50a2ff; */
+    border-radius: 5px;
+}
+
+.pretty-table tbody tr td {
+    padding: 7px 10px;
+    border-radius: 3px;
+}
+
+.pretty-table tbody tr td:hover {
+    background-color: rgba(189, 189, 189, 0.174);
+}

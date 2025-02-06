@@ -1,8 +1,12 @@
 import './App.css'
-import Header from './components/header/Header'
-import Footer from './components/footer/Footer'
-import { createBrowserRouter, Outlet, Router, RouterProvider } from 'react-router'
-import NewEmployee from './pages/NewEmployee'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import EmployeesAside from './components/EmployeesAside'
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
+import NewEmployee from './pages/employees/NewEmployee'
+import Employees from './pages/employees/Employees'
+import EmployeesList from './pages/employees/EmployeesList'
+import EmployeesHome from './pages/employees/EmployeesHome'
 
 const router = createBrowserRouter([
   {
@@ -15,13 +19,25 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <>
-          <Outlet />
-        </>
+        element: <Outlet />
       },
       {
-        path: "/new-employee",
-        element: <NewEmployee />
+        path: "/employees",
+        element: <Employees />,
+        children: [
+          {
+            path: "",
+            element: <EmployeesHome />
+          },
+          {
+            path: "/employees/employees-list",
+            element: <EmployeesList />
+          },
+          {
+            path: "/employees/new-employee",
+            element: <NewEmployee />
+          }
+        ]
       }
     ]
   }
