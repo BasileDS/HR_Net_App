@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
 import { useState } from "react"
 import getRandomId from "./utils/randomId"
 import { useEffect } from "react"
@@ -19,19 +21,20 @@ function formatEmployees(employee) {
 /** React component : returns the pretty table based on data object */
 export default function PrettyTable ({data}) {
     const [ascendent, setAscendent] = useState(true)
+    const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
     const [employeesList, setEmployeesList] = useState(data.employees)
     let prevSortingType = sortingType
     
     const handleTableClick = (type) => {
         sortTable(type)
-        activateSortingStyle(type)
     }
 
     const sortTable = (type) => {
         prevSortingType = type
         setSortingType(type)
         prevSortingType === sortingType ? setAscendent(!ascendent) : setAscendent(true)
+        activateSortingStyle(type)
     }
 
     const activateSortingStyle = (type) => {
@@ -42,45 +45,58 @@ export default function PrettyTable ({data}) {
         })
 
         const activeCell = document.querySelector(`#pt-${type}`)
-        activeCell.classList.add("active")
+        activeCell.classList.toggle("active", "desc")
         const ascending = ascendent ? "ascending" : "descending"
         activeCell.setAttribute("aria-sort", ascending)
-    }
-
-    const sortData = (a, b) => {
-        const A = a[sortingType]
-        const B = b[sortingType]
-
-        if ( A > B ){
-            return 1
-        }
-        if ( A < B ){
-            return -1
-        }
-        return 0
     }
     
     useEffect(() => {
         const employeesCopy = [...employeesList]
-        const sorteByType = employeesCopy.sort(( a, b ) => sortData(a, b) )
+        const sorteByType = employeesCopy.sort(( a, b ) => {
+            const A = a[sortingType]
+            const B = b[sortingType]
+    
+            if ( A > B ){
+                return 1
+            }
+            if ( A < B ){
+                return -1
+            }
+            return 0
+        } )
         const sortedEmployees = ascendent ? sorteByType : sorteByType.reverse()
         setEmployeesList(sortedEmployees)
-    }, [ascendent])
+    }, [ascendent, sortingType])
     
     const randomId = getRandomId(10)
     return <>
-        <table className="pretty-table" id={`ptable-${randomId}`}>
-            <thead className="pretty-thead">
-                <tr className="pretty-thead-row">
-                    {
-                        data.columns.map( (col, i) => {
-                            const key = `ptable-col-${col.data}-${i}`
-                            return <th className="pretty-thead-cells" id={`pt-${col.data}`} scope="col" key={key} onClick={() => handleTableClick(col.data)}>{col.title}</th>
-                        })
-                    }
-                </tr>
-            </thead>
-            <tbody className="pretty-tbody" id={`ptbody-${randomId}`}>
+        {
+            <div id={`pt-filters-${randomId}`} className="pt-active-filters">
+                <p className="pt-filters-order">Order:<span className="pt-filters-order-value">{ascendent ? "ascending" : "descending"}</span></p>
+                {
+                }
+            </div>
+        }
+        <div className="pretty-table-container">
+            <table className="pretty-table" id={`ptable-${randomId}`}>
+                <thead className="pretty-thead">
+                    <tr className="pretty-thead-row">
+                        {
+                            data.columns.map( (col, i) => {
+                                const key = `ptable-col-${col.data}-${i}`
+                                return <th 
+                                        className={`pretty-thead-cells ${col.data}`}
+                                        id={`pt-${col.data}`}
+                                        scope="col"
+                                        key={key}
+                                        onClick={() => handleTableClick(col.data)}>
+                                            {col.title}
+                                        </th>
+                            })
+                        }
+                    </tr>
+                </thead>
+                <tbody className="pretty-tbody" id={`ptbody-${randomId}`}>
                     {
                         employeesList.map((employee, i) => {
                             // Format employee object to return an array of object (ex: [{firstName: Tom}, {}, ... ]
@@ -90,7 +106,11 @@ export default function PrettyTable ({data}) {
                                     {
                                         employeeData.map((employee, i) => {
                                             const id = employee.value.trim().toLowerCase().replace(/\s/g,"").split("/").join("")
-                                            return <td className="pretty-tbody-cells" key={`ptable-emp-td-${id}-${i}`}>{employee.value}</td>
+                                            return <td
+                                                    className={`pretty-tbody-cells ${employee.key}`}
+                                                    key={`ptable-emp-td-${id}-${i}`}>
+                                                        {employee.value}
+                                                    </td>
                                         })
                                     }
                                 </tr>
@@ -98,7 +118,7 @@ export default function PrettyTable ({data}) {
                             })
                     }
                 </tbody>
-        </table>
+            </table>
+        </div>
     </>
-
 }
