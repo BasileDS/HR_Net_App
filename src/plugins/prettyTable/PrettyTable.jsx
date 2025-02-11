@@ -20,7 +20,9 @@ function formatEmployees(employee) {
 
 /** React component : returns the pretty table based on data object */
 export default function PrettyTable ({data}) {
-    const [ascendent, setAscendent] = useState(true)
+    const [ascending, setAscending] = useState(true)
+    const [entriesNb, setEntriesNb] = useState(null)
+    const [entriesNbToDisplay, setEntriesNbToDisplay] = useState(5)
     const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
     const [employeesList, setEmployeesList] = useState(data.employees)
@@ -28,32 +30,39 @@ export default function PrettyTable ({data}) {
     
     // type: string: the clicked cell data type. Ex: FirstName
     const handleTableClick = (type, e) => {
-        
+        setSortingType(type)
+
         const cellClicked = e.target
         const cellAriaSort = cellClicked.getAttribute("aria-sort")
         const isCellActive = cellAriaSort === "none" ? false : true        
-        isCellActive ? toggleActiveFilter(cellClicked) : changeFilterType()
-        setSortingType(type)
+        isCellActive ? toggleActiveFilter(cellClicked) : changeFilterType(cellClicked)
     }
     
     const toggleActiveFilter = (cell) => {
-        setAscendent(!ascendent)
-        cell.classList.toggle("desc")
-        const ascending = ascendent ? "ascending" : "descending"
-        activeCell.setAttribute("aria-sort", ascending)
+        const isAscending = cell.getAttribute("aria-sort")
+        if (isAscending === "ascending") {
+            setAscending(false)
+            cell.setAttribute("aria-sort", "descending")
+        } else {
+            setAscending(true)
+            cell.setAttribute("aria-sort", "ascending")
+        }
+    }
+    
+    const changeFilterType = (cell) => {
+        setAscending(true)
+        const allCells = document.querySelectorAll(".pretty-thead-cells")
+        allCells.forEach(th => {
+            th.classList.remove("active")
+            th.setAttribute("aria-sort", "none")
+        })
+        cell.setAttribute("aria-sort", "ascending")
+        cell.classList.add("active")
     }
 
-    const changeFilterType = () => {
-        setAscendent(true)
-        const allCells = document.querySelectorAll(".pretty-thead-cells")
-        allCells.forEach(cell => {
-            cell.classList.remove("active")
-            cell.classList.remove("desc")
-            cell.setAttribute("aria-sort", "none")
-        })
-        const activeCell = document.querySelector(`#pt-${type}`)
-        activeCell.classList.add("active")
-        activeCell.setAttribute("aria-sort", "ascending")
+    const handleEntriesNbChange = (e) => {
+        const selectValue = e.target.value
+        setEntriesNbToDisplay(selectValue)
     }
 
     useEffect(() => {
@@ -70,17 +79,28 @@ export default function PrettyTable ({data}) {
             }
             return 0
         } )
-        const sortedEmployees = ascendent ? sortByType : sortByType.reverse()
-        setEmployeesList(sortedEmployees)
-    }, [ascendent, sortingType])
+        const sortedEmployees = ascending ? sortByType : sortByType.reverse()
+        const sortedEmployeesToDisplay = sortedEmployees.slice(0, entriesNbToDisplay)
+        setEntriesNb(sortedEmployees.length)
+    }, [sortingType, ascending, entriesNbToDisplay])
     
     const randomId = getRandomId(10)
     return <>
         {
             <div id={`pt-filters-${randomId}`} className="pt-active-filters">
-                <p className="pt-filters-order">Order:<span className="pt-filters-order-value">{ascendent ? "ascending" : "descending"}</span></p>
-                {
-                }
+                <p className="pt-filters-order">Order:<span className="pt-filters-value pt-filters-order-value">{ascending ? "ascending" : "descending"}</span></p>
+                <p className="pt-filters-order">Total entries:<span className="pt-filters-value">{entriesNb}</span></p>
+                <p className="pt-filters-order">
+                    Showing
+                    <select id="entries-to-display" defaultValue={entriesNbToDisplay} onChange={ (e) => handleEntriesNbChange(e)} className="pt-filters-value">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    entries
+                </p>
             </div>
         }
         <div className="pretty-table-container">

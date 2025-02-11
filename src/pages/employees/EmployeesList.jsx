@@ -44,6 +44,182 @@ const employees = [
         city: 'Metz',
         state: 'Lorraine',
         zipCode: '57000' 
+    },
+    {
+        firstName: 'Lorène',
+        lastName: 'Génot',
+        startDate: '26/02/2025',
+        department: 'Maman',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Clémentine',
+        lastName: 'Henry',
+        startDate: '12/02/2025',
+        department: 'Architecture',
+        dateOfBirth: '10/06/1994',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Florian',
+        lastName: 'Chevaux',
+        startDate: '26/02/2025',
+        department: 'DevLead',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Basile',
+        lastName: 'Dos Santos',
+        startDate: '12/05/2025',
+        department: 'Tech',
+        dateOfBirth: '28/03/1995',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Lorène',
+        lastName: 'Génot',
+        startDate: '26/02/2025',
+        department: 'Maman',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Clémentine',
+        lastName: 'Henry',
+        startDate: '12/02/2025',
+        department: 'Architecture',
+        dateOfBirth: '10/06/1994',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Florian',
+        lastName: 'Chevaux',
+        startDate: '26/02/2025',
+        department: 'DevLead',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Basile',
+        lastName: 'Dos Santos',
+        startDate: '12/05/2025',
+        department: 'Tech',
+        dateOfBirth: '28/03/1995',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Lorène',
+        lastName: 'Génot',
+        startDate: '26/02/2025',
+        department: 'Maman',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Clémentine',
+        lastName: 'Henry',
+        startDate: '12/02/2025',
+        department: 'Architecture',
+        dateOfBirth: '10/06/1994',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Florian',
+        lastName: 'Chevaux',
+        startDate: '26/02/2025',
+        department: 'DevLead',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Basile',
+        lastName: 'Dos Santos',
+        startDate: '12/05/2025',
+        department: 'Tech',
+        dateOfBirth: '28/03/1995',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Lorène',
+        lastName: 'Génot',
+        startDate: '26/02/2025',
+        department: 'Maman',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Clémentine',
+        lastName: 'Henry',
+        startDate: '12/02/2025',
+        department: 'Architecture',
+        dateOfBirth: '10/06/1994',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
+    },
+    {
+        firstName: 'Florian',
+        lastName: 'Chevaux',
+        startDate: '26/02/2025',
+        department: 'DevLead',
+        dateOfBirth: '10/06/1989',
+        street: 'No se',
+        city: 'Nice',
+        state: 'Sud',
+        zipCode: '33000' 
+    },
+    {
+        firstName: 'Basile',
+        lastName: 'Dos Santos',
+        startDate: '12/05/2025',
+        department: 'Tech',
+        dateOfBirth: '28/03/1995',
+        street: '5 boulevard Paixhans',
+        city: 'Metz',
+        state: 'Lorraine',
+        zipCode: '57000' 
     }
 ]
 
