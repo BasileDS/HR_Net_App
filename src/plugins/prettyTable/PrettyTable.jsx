@@ -24,35 +24,41 @@ export default function PrettyTable ({data}) {
     const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
     const [employeesList, setEmployeesList] = useState(data.employees)
-    let prevSortingType = sortingType
+    // let prevSortingType = sortingType
     
-    const handleTableClick = (type) => {
-        sortTable(type)
-    }
-
-    const sortTable = (type) => {
-        prevSortingType = type
+    // type: string: the clicked cell data type. Ex: FirstName
+    const handleTableClick = (type, e) => {
+        
+        const cellClicked = e.target
+        const cellAriaSort = cellClicked.getAttribute("aria-sort")
+        const isCellActive = cellAriaSort === "none" ? false : true        
+        isCellActive ? toggleActiveFilter(cellClicked) : changeFilterType()
         setSortingType(type)
-        prevSortingType === sortingType ? setAscendent(!ascendent) : setAscendent(true)
-        activateSortingStyle(type)
     }
-
-    const activateSortingStyle = (type) => {
-        const allCells = document.querySelectorAll(".pretty-thead-cells")
-        allCells.forEach(cell => {
-            cell.classList.remove("active")
-            cell.setAttribute("aria-sort", "none")
-        })
-
-        const activeCell = document.querySelector(`#pt-${type}`)
-        activeCell.classList.toggle("active", "desc")
+    
+    const toggleActiveFilter = (cell) => {
+        setAscendent(!ascendent)
+        cell.classList.toggle("desc")
         const ascending = ascendent ? "ascending" : "descending"
         activeCell.setAttribute("aria-sort", ascending)
     }
-    
+
+    const changeFilterType = () => {
+        setAscendent(true)
+        const allCells = document.querySelectorAll(".pretty-thead-cells")
+        allCells.forEach(cell => {
+            cell.classList.remove("active")
+            cell.classList.remove("desc")
+            cell.setAttribute("aria-sort", "none")
+        })
+        const activeCell = document.querySelector(`#pt-${type}`)
+        activeCell.classList.add("active")
+        activeCell.setAttribute("aria-sort", "ascending")
+    }
+
     useEffect(() => {
         const employeesCopy = [...employeesList]
-        const sorteByType = employeesCopy.sort(( a, b ) => {
+        const sortByType = employeesCopy.sort(( a, b ) => {
             const A = a[sortingType]
             const B = b[sortingType]
     
@@ -64,7 +70,7 @@ export default function PrettyTable ({data}) {
             }
             return 0
         } )
-        const sortedEmployees = ascendent ? sorteByType : sorteByType.reverse()
+        const sortedEmployees = ascendent ? sortByType : sortByType.reverse()
         setEmployeesList(sortedEmployees)
     }, [ascendent, sortingType])
     
@@ -89,7 +95,8 @@ export default function PrettyTable ({data}) {
                                         id={`pt-${col.data}`}
                                         scope="col"
                                         key={key}
-                                        onClick={() => handleTableClick(col.data)}>
+                                        aria-sort="none"
+                                        onClick={(e) => handleTableClick(col.data, e)}>
                                             {col.title}
                                         </th>
                             })
