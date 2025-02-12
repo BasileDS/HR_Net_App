@@ -20,22 +20,38 @@ function formatEmployees(employee) {
 
 /** React component : returns the pretty table based on data object */
 export default function PrettyTable ({data}) {
-    const [ascending, setAscending] = useState(true)
+    const [ascending, setAscending] = useState(null)
+    const [firstEntry, setFirstEntry] = useState(0)
     const [entriesNb, setEntriesNb] = useState(null)
     const [entriesNbToDisplay, setEntriesNbToDisplay] = useState(5)
-    const [reset, setReset] = useState(false)
+    // const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
     const [employeesList, setEmployeesList] = useState(data.employees)
-    // let prevSortingType = sortingType
+    const [sortedEmployeesList, setSortedEmployeesList] = useState(employeesList)
+    const [filteredEmployeesList, setFilteredEmployeesList] = useState(null)
     
+    const randomId = getRandomId(10)
+    const activeEntriesNb = entriesNbToDisplay > entriesNb ? entriesNb : entriesNbToDisplay
+
     // type: string: the clicked cell data type. Ex: FirstName
     const handleTableClick = (type, e) => {
+        const nbToDisplaySelect = document.querySelector("#entries-to-display")
+        setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
+        setFirstEntry(0)
+        
         setSortingType(type)
 
-        const cellClicked = e.target
-        const cellAriaSort = cellClicked.getAttribute("aria-sort")
-        const isCellActive = cellAriaSort === "none" ? false : true        
-        isCellActive ? toggleActiveFilter(cellClicked) : changeFilterType(cellClicked)
+        const orderByFilterButton = document.querySelector("#pt-filters-order-value")
+        const filterClicked = e.target
+
+        if (orderByFilterButton === filterClicked) {
+            const cellAriaSort = document.querySelector("th.active")
+            toggleActiveFilter(cellAriaSort)
+        } else {
+            const cellAriaSort = filterClicked.getAttribute("aria-sort")
+            const isCellActive = cellAriaSort === "none" ? false : true        
+            isCellActive ? toggleActiveFilter(filterClicked) : changeFilterType(filterClicked)
+        }
     }
     
     const toggleActiveFilter = (cell) => {
@@ -61,12 +77,52 @@ export default function PrettyTable ({data}) {
     }
 
     const handleEntriesNbChange = (e) => {
-        const selectValue = e.target.value
-        setEntriesNbToDisplay(selectValue)
+        const nbToDisplaySelect = document.querySelector("#entries-to-display")
+        const showMoreButton = document.querySelector("#pt-show-more-button")
+
+        if (e.target === showMoreButton) {
+            nbToDisplaySelect.value = Number(entriesNbToDisplay) + Number(entriesNbToDisplay)
+            setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
+        } else {
+            const selectValue = e.target.value
+            setFirstEntry(0)
+            setEntriesNbToDisplay(selectValue)
+        }
     }
 
-    useEffect(() => {
+    const handleSearchByFilter = (e) => {
+        const searchInputValue = e.target.value.trim()
+        const matchingElements = []
+
         const employeesCopy = [...employeesList]
+        employeesCopy.forEach(employee => {
+            Object.entries(employee).forEach(entry => {
+                entry[1].toLowerCase().includes(searchInputValue.toLowerCase()) && matchingElements.push(employee)
+            })
+        })
+
+        if (searchInputValue === "") {
+            setFilteredEmployeesList(null)
+        } else {
+            setFilteredEmployeesList(matchingElements)
+        }
+    }
+
+    const handleNextButton = () => {
+        const nbToDisplaySelect = document.querySelector("#entries-to-display")
+        setFirstEntry(Number(entriesNbToDisplay))
+        setEntriesNbToDisplay(Number(entriesNbToDisplay) + Number(nbToDisplaySelect.value))
+    }
+
+    const handlePrevButton = () => {
+        const nbToDisplaySelect = document.querySelector("#entries-to-display")
+        setFirstEntry(firstEntry - Number(nbToDisplaySelect.value))
+        setEntriesNbToDisplay(Number(entriesNbToDisplay) - Number(nbToDisplaySelect.value))
+    }
+    
+    useEffect(() => {
+        const employeesCopy = filteredEmployeesList !== null ? filteredEmployeesList : [...employeesList]
+
         const sortByType = employeesCopy.sort(( a, b ) => {
             const A = a[sortingType]
             const B = b[sortingType]
@@ -79,20 +135,31 @@ export default function PrettyTable ({data}) {
             }
             return 0
         } )
+
         const sortedEmployees = ascending ? sortByType : sortByType.reverse()
-        const sortedEmployeesToDisplay = sortedEmployees.slice(0, entriesNbToDisplay)
+        const sortedEmployeesToDisplay = sortedEmployees.slice(firstEntry, Number(entriesNbToDisplay))
+
+        setSortedEmployeesList(sortedEmployeesToDisplay)
         setEntriesNb(sortedEmployees.length)
-    }, [sortingType, ascending, entriesNbToDisplay])
+
+    }, [sortingType, ascending, entriesNbToDisplay, filteredEmployeesList, firstEntry])
     
-    const randomId = getRandomId(10)
     return <>
         {
             <div id={`pt-filters-${randomId}`} className="pt-active-filters">
-                <p className="pt-filters-order">Order:<span className="pt-filters-value pt-filters-order-value">{ascending ? "ascending" : "descending"}</span></p>
+                <p className="pt-filters-order">Order:<span
+                    id="pt-filters-order-value"
+                    onClick={(e) => handleTableClick(sortingType, e)}
+                    className="pt-filters-value pt-filters-order-value">{ascending === null ? "+ recent" : ascending ? "ascending" : "descending"}</span>
+                </p>
                 <p className="pt-filters-order">Total entries:<span className="pt-filters-value">{entriesNb}</span></p>
                 <p className="pt-filters-order">
                     Showing
-                    <select id="entries-to-display" defaultValue={entriesNbToDisplay} onChange={ (e) => handleEntriesNbChange(e)} className="pt-filters-value">
+                    <select 
+                    id="entries-to-display" 
+                    defaultValue={entriesNbToDisplay} 
+                    onChange={(e) => handleEntriesNbChange(e)} 
+                    className="pt-filters-value">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -101,6 +168,11 @@ export default function PrettyTable ({data}) {
                     </select>
                     entries
                 </p>
+                <input 
+                    type="search" 
+                    id="pt-filters-search" 
+                    onChange={(e) => handleSearchByFilter(e)} 
+                    className="pt-filters-search" />
             </div>
         }
         <div className="pretty-table-container">
@@ -125,7 +197,7 @@ export default function PrettyTable ({data}) {
                 </thead>
                 <tbody className="pretty-tbody" id={`ptbody-${randomId}`}>
                     {
-                        employeesList.map((employee, i) => {
+                        sortedEmployeesList.map((employee, i) => {
                             // Format employee object to return an array of object (ex: [{firstName: Tom}, {}, ... ]
                             const employeeData = formatEmployees(employee)
                             return (
@@ -146,6 +218,61 @@ export default function PrettyTable ({data}) {
                     }
                 </tbody>
             </table>
+            <div className="pt-footer">
+                <div className="pt-footer-nav">
+                    <button
+                        onClick={handlePrevButton} 
+                        className={
+                            firstEntry === 0 ?
+                                "pt-footer-button-prev no-action" :
+                                "pt-footer-button-prev"
+                        }
+                    >
+                        Prev
+                    </button>
+                    <button 
+                        onClick={handleEntriesNbChange} 
+                        id="pt-show-more-button"
+                        className={
+                            activeEntriesNb === 0 ? 
+                            "search-no-match" :
+                            activeEntriesNb >= entriesNb ?
+                                "no-action" :
+                                "pt-footer-button"
+                        }
+                    >
+                        {
+                            activeEntriesNb === 0 ? 
+                                "No employee matching search" :
+                                activeEntriesNb >= entriesNb ?
+                                    "Showing all employees" :
+                                    "Show more employees"
+                        }
+                    </button>
+                    <button
+                        onClick={handleNextButton} 
+                        className={
+                            Number(activeEntriesNb) === Number(entriesNb) ?
+                                "pt-footer-button-next no-action" :
+                                firstEntry === 0 ?
+                                    "pt-footer-button-next" :
+                                    activeEntriesNb === entriesNb ?
+                                        "pt-footer-button-next no-action" :
+                                        "pt-footer-button-next"
+                        }
+                    >
+                        Next
+                    </button>
+                    </div>
+                <p className="pt-filters-order">
+                    Showing {firstEntry} to {activeEntriesNb} from {entriesNb} entries 
+                    {
+                        filteredEmployeesList !== null ?
+                            ` (filtered from ${employeesList.length} total entries)`
+                        : ""
+                    }
+                </p>
+            </div>
         </div>
     </>
 }
