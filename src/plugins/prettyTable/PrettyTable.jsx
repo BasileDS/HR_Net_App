@@ -6,6 +6,9 @@ import { useEffect } from "react"
 
 import "./pretty-table.css"
 
+import searchIcon from "./assets/search-button.svg"
+
+
 // Format data from simple object to array of objects for each row
 function formatEmployees(employee) {
     const key = Object.keys(employee)
@@ -19,21 +22,55 @@ function formatEmployees(employee) {
 }
 
 /** React component : returns the pretty table based on data object */
-export default function PrettyTable ({data}) {
+export default function PrettyTable ({data, config}) {
     const [ascending, setAscending] = useState(null)
     const [firstEntry, setFirstEntry] = useState(0)
     const [entriesNb, setEntriesNb] = useState(null)
     const [entriesNbToDisplay, setEntriesNbToDisplay] = useState(5)
     // const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
-    const [employeesList, setEmployeesList] = useState(data.employees)
+    const [employeesList, setEmployeesList] = useState(data.data)
     const [sortedEmployeesList, setSortedEmployeesList] = useState(employeesList)
     const [filteredEmployeesList, setFilteredEmployeesList] = useState(null)
     
     const randomId = getRandomId(10)
     const activeEntriesNb = entriesNbToDisplay > entriesNb ? entriesNb : entriesNbToDisplay
 
-    // type: string: the clicked cell data type. Ex: FirstName
+    // Store table config
+    const showDataName = config.dataName && config.showDataName
+    const accentColor = config.accentColor && config.useAccentColor ? {
+        color: config.accentColor,
+        borderColor: config.accentColor
+    } : null
+
+    const activateDarkTheme = () => {
+        const allTags = document.querySelectorAll(`#pt-table-${randomId} > *`)
+        allTags.forEach(tag => {
+            tag.style.color = "white"
+        })
+        
+        const searchBarInput = document.querySelector(`.pt-search-wrapper > input`)
+        searchBarInput.style.borderColor = "whitesmoke"
+        
+        const searchBarIcon = document.querySelector(`.pt-search-wrapper > img`)
+        searchBarIcon.style.filter = "invert(1)"
+        
+        const allFilters = document.querySelectorAll(`.pt-filters-order, .pt-filters-value`)
+        allFilters.forEach(filter => {
+            filter.style.borderColor = "whitesmoke"
+        })
+
+        const allRows = document.querySelectorAll(`.pretty-table tbody tr:nth-child(even)`)
+        allRows.forEach(row => {
+            row.style.backgroundColor = "#ffffff1c"
+        })
+
+        const tHead = document.querySelector(`thead`)
+        tHead.style.backgroundColor = "##ffffff2d"
+
+    }
+
+    // type = string: the clicked cell data type. Ex: FirstName
     const handleTableClick = (type, e) => {
         const nbToDisplaySelect = document.querySelector("#entries-to-display")
         setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
@@ -55,6 +92,11 @@ export default function PrettyTable ({data}) {
     }
     
     const toggleActiveFilter = (cell) => {
+
+        if (cell === null) {
+            return
+        }
+
         const isAscending = cell.getAttribute("aria-sort")
         if (isAscending === "ascending") {
             setAscending(false)
@@ -141,86 +183,115 @@ export default function PrettyTable ({data}) {
 
         setSortedEmployeesList(sortedEmployeesToDisplay)
         setEntriesNb(sortedEmployees.length)
+        
+        config.darkTheme && activateDarkTheme()
 
     }, [sortingType, ascending, entriesNbToDisplay, filteredEmployeesList, firstEntry])
     
     return <>
-        {
-            <div id={`pt-filters-${randomId}`} className="pt-active-filters">
-                <p className="pt-filters-order">Order:<span
-                    id="pt-filters-order-value"
-                    onClick={(e) => handleTableClick(sortingType, e)}
-                    className="pt-filters-value pt-filters-order-value">{ascending === null ? "+ recent" : ascending ? "ascending" : "descending"}</span>
-                </p>
-                <p className="pt-filters-order">Total entries:<span className="pt-filters-value">{entriesNb}</span></p>
-                <p className="pt-filters-order">
-                    Showing
-                    <select 
-                    id="entries-to-display" 
-                    defaultValue={entriesNbToDisplay} 
-                    onChange={(e) => handleEntriesNbChange(e)} 
-                    className="pt-filters-value">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    entries
-                </p>
-                <input 
-                    type="search" 
-                    id="pt-filters-search" 
-                    onChange={(e) => handleSearchByFilter(e)} 
-                    className="pt-filters-search" />
-            </div>
-        }
-        <div className="pretty-table-container">
-            <table className="pretty-table" id={`ptable-${randomId}`}>
-                <thead className="pretty-thead">
-                    <tr className="pretty-thead-row">
-                        {
-                            data.columns.map( (col, i) => {
-                                const key = `ptable-col-${col.data}-${i}`
-                                return <th 
-                                        className={`pretty-thead-cells ${col.data}`}
-                                        id={`pt-${col.data}`}
-                                        scope="col"
-                                        key={key}
-                                        aria-sort="none"
-                                        onClick={(e) => handleTableClick(col.data, e)}>
-                                            {col.title}
-                                        </th>
-                            })
-                        }
-                    </tr>
-                </thead>
-                <tbody className="pretty-tbody" id={`ptbody-${randomId}`}>
+    <div id={`pt-table-${randomId}`}>
+            {
+                <div id={`pt-filters-${randomId}`} className="pt-active-filters">
                     {
-                        sortedEmployeesList.map((employee, i) => {
-                            // Format employee object to return an array of object (ex: [{firstName: Tom}, {}, ... ]
-                            const employeeData = formatEmployees(employee)
-                            return (
-                                <tr className="pretty-tbody-rows" id={`ptable-${randomId}-${i}`} key={`ptable-emp-tr-${employee[0]}-${i}`}>
-                                    {
-                                        employeeData.map((employee, i) => {
-                                            const id = employee.value.trim().toLowerCase().replace(/\s/g,"").split("/").join("")
-                                            return <td
-                                                    className={`pretty-tbody-cells ${employee.key}`}
-                                                    key={`ptable-emp-td-${id}-${i}`}>
-                                                        {employee.value}
-                                                    </td>
-                                        })
-                                    }
-                                </tr>
-                                )
-                            })
+                        config.showSearchBar && config.searchBarToLeft && (
+                            <div className="pt-search-wrapper">
+                                <input
+                                    type="search"
+                                    placeholder="Search employee(s)"
+                                    id="pt-filters-search" 
+                                    onChange={(e) => handleSearchByFilter(e)} 
+                                    className="pt-filters-search"
+                                />
+                                <img src={searchIcon} id="pt-search-icon" className="pt-search-icon"/>
+                            </div>
+                        )
                     }
-                </tbody>
-            </table>
+                    <p className="pt-filters-order">Order:<span
+                        id="pt-filters-order-value"
+                        onClick={(e) => handleTableClick(sortingType, e)}
+                        className="pt-filters-value pt-filters-order-value">{ascending === null ? "+ recent" : ascending ? "ascending" : "descending"}</span>
+                    </p>
+                    <p className="pt-filters-order">Total entries:<span className="pt-filters-value">{entriesNb}</span></p>
+                    <p className="pt-filters-order">
+                        Show
+                        <select 
+                        id="entries-to-display" 
+                        defaultValue={entriesNbToDisplay} 
+                        onChange={(e) => handleEntriesNbChange(e)} 
+                        className="pt-filters-value">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries
+                    </p>
+                    {
+                        config.showSearchBar && !config.searchBarToLeft && (
+                            <div className="pt-search-wrapper">
+                                <input 
+                                    type="search"
+                                    placeholder="Search employee(s)"
+                                    id="pt-filters-search" 
+                                    onChange={(e) => handleSearchByFilter(e)} 
+                                    className="pt-filters-search"
+                                />
+                                <img src={searchIcon} id="pt-search-icon" className="pt-search-icon"/>
+                            </div>
+                        )
+                    }
+                </div>
+            }
+            <div className="pretty-table-container">
+                <table className="pretty-table" id={`ptable-${randomId}`}>
+                    <thead className="pretty-thead">
+                        <tr className="pretty-thead-row">
+                            {
+                                data.columns.map( (col, i) => {
+                                    const key = `ptable-col-${col.data}-${i}`
+                                    return <th 
+                                            className={`pretty-thead-cells ${col.data}`}
+                                            id={`pt-${col.data}`}
+                                            scope="col"
+                                            key={key}
+                                            aria-sort="none"
+                                            onClick={(e) => handleTableClick(col.data, e)}>
+                                                {col.title}
+                                            </th>
+                                })
+                            }
+                        </tr>
+                    </thead>
+                    <tbody className="pretty-tbody" id={`ptbody-${randomId}`}>
+                        {
+                            sortedEmployeesList.map((employee, i) => {
+                                // Format employee object to return an array of object (ex: [{firstName: Tom}, {}, ... ]
+                                const employeeData = formatEmployees(employee)
+                                return (
+                                    <tr className="pretty-tbody-rows" id={`ptable-${randomId}-${i}`} key={`ptable-emp-tr-${employee[0]}-${i}`}>
+                                        {
+                                            employeeData.map((employee, i) => {
+                                                const id = employee.value.trim().toLowerCase().replace(/\s/g,"").split("/").join("")
+                                                return <td
+                                                        className={`pretty-tbody-cells ${employee.key}`}
+                                                        key={`ptable-emp-td-${id}-${i}`}>
+                                                            {employee.value}
+                                                        </td>
+                                            })
+                                        }
+                                    </tr>
+                                    )
+                                }
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
             <div className="pt-footer">
                 <div className="pt-footer-nav">
                     <button
+                        style={accentColor && accentColor}
                         onClick={handlePrevButton} 
                         className={
                             firstEntry === 0 ?
@@ -231,6 +302,7 @@ export default function PrettyTable ({data}) {
                         Prev
                     </button>
                     <button 
+                        style={accentColor && accentColor}
                         onClick={handleEntriesNbChange} 
                         id="pt-show-more-button"
                         className={
@@ -240,17 +312,18 @@ export default function PrettyTable ({data}) {
                                 "no-action" :
                                 "pt-footer-button"
                         }
-                    >
+                    > 
                         {
                             activeEntriesNb === 0 ? 
-                                "No employee matching search" :
+                                `No ${showDataName ? `${config.dataName.toLowerCase()}(s)` : "entries"} matching search` :
                                 activeEntriesNb >= entriesNb ?
-                                    "Showing all employees" :
-                                    "Show more employees"
+                                    `Showing all ${showDataName && `${config.dataName.toLowerCase()}(s)`}` :
+                                    `Show more ${showDataName && `${config.dataName.toLowerCase()}(s)`}`
                         }
                     </button>
                     <button
-                        onClick={handleNextButton} 
+                        style={accentColor && accentColor}
+                        onClick={handleNextButton}
                         className={
                             Number(activeEntriesNb) === Number(entriesNb) ?
                                 "pt-footer-button-next no-action" :
