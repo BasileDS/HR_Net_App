@@ -46,7 +46,7 @@ form input:focus {
   outline: 0.1rem solid rgba(80, 110, 219, 0.299);
 }
 
-a:not(aside a, header a) {
+a:not(aside a, header a, .modal a) {
   color: #50a2ff;
 }
 

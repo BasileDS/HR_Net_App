@@ -8,7 +8,6 @@ import "./pretty-table.css"
 
 import searchIcon from "./assets/search-button.svg"
 
-
 // Format data from simple object to array of objects for each row
 function formatEmployees(employee) {
     const key = Object.keys(employee)
@@ -21,28 +20,32 @@ function formatEmployees(employee) {
     return employeeData
 }
 
-/** React component : returns the pretty table based on data object */
+/** 
+ * React component : returns the pretty table based on data object and config
+ * data - Array of object containing user data
+ * config  string - Object of paired key/values to define table design and data display
+ */
 export default function PrettyTable ({data, config}) {
     const [ascending, setAscending] = useState(null)
     const [firstEntry, setFirstEntry] = useState(0)
     const [entriesNb, setEntriesNb] = useState(null)
     const [entriesNbToDisplay, setEntriesNbToDisplay] = useState(5)
-    // const [reset, setReset] = useState(false)
     const [sortingType, setSortingType] = useState(null)
-    const [employeesList, setEmployeesList] = useState(data.data)
+    const [employeesList, setEmployeesList] = useState(data.data ? data.data : null)
     const [sortedEmployeesList, setSortedEmployeesList] = useState(employeesList)
     const [filteredEmployeesList, setFilteredEmployeesList] = useState(null)
     
     const randomId = getRandomId(10)
     const activeEntriesNb = entriesNbToDisplay > entriesNb ? entriesNb : entriesNbToDisplay
 
-    // Store table config
+    // Stores a part of table config into const
     const showDataName = config.dataName && config.showDataName
     const accentColor = config.accentColor && config.useAccentColor ? {
         color: config.accentColor,
         borderColor: config.accentColor
     } : null
 
+    // Turn on dark theme based on table configuration (config.darkTheme = true)
     const activateDarkTheme = () => {
         const allTags = document.querySelectorAll(`#pt-table-${randomId} > *`)
         allTags.forEach(tag => {
@@ -69,8 +72,11 @@ export default function PrettyTable ({data, config}) {
         tHead.style.backgroundColor = "##ffffff2d"
 
     }
-
-    // type = string: the clicked cell data type. Ex: FirstName
+    /**
+     * Triggered on table thead cells click.
+     * Always displays ascending order is cell wasn't active before clicking.
+     * Toggle order or change filter based on clicked cell active or not.
+     */
     const handleTableClick = (type, e) => {
         const nbToDisplaySelect = document.querySelector("#entries-to-display")
         setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
@@ -91,6 +97,7 @@ export default function PrettyTable ({data, config}) {
         }
     }
     
+    // Toogle current filter display order (ascending / descending)
     const toggleActiveFilter = (cell) => {
 
         if (cell === null) {
@@ -107,6 +114,7 @@ export default function PrettyTable ({data, config}) {
         }
     }
     
+    // Switch to a new filter. Displays data by ascending order
     const changeFilterType = (cell) => {
         setAscending(true)
         const allCells = document.querySelectorAll(".pretty-thead-cells")
@@ -118,6 +126,7 @@ export default function PrettyTable ({data, config}) {
         cell.classList.add("active")
     }
 
+    // Change number of entrie to be displayed on the table
     const handleEntriesNbChange = (e) => {
         const nbToDisplaySelect = document.querySelector("#entries-to-display")
         const showMoreButton = document.querySelector("#pt-show-more-button")
@@ -132,6 +141,7 @@ export default function PrettyTable ({data, config}) {
         }
     }
 
+    // Filter table content based on search bar value
     const handleSearchByFilter = (e) => {
         const searchInputValue = e.target.value.trim()
         const matchingElements = []
@@ -139,7 +149,9 @@ export default function PrettyTable ({data, config}) {
         const employeesCopy = [...employeesList]
         employeesCopy.forEach(employee => {
             Object.entries(employee).forEach(entry => {
-                entry[1].toLowerCase().includes(searchInputValue.toLowerCase()) && matchingElements.push(employee)
+                entry[1].toLowerCase().includes(searchInputValue.toLowerCase()) && 
+                !matchingElements.includes(employee) &&
+                matchingElements.push(employee)
             })
         })
 
@@ -150,18 +162,22 @@ export default function PrettyTable ({data, config}) {
         }
     }
 
+    // Load next entries based on curent entries and the number of entrie to display
     const handleNextButton = () => {
         const nbToDisplaySelect = document.querySelector("#entries-to-display")
         setFirstEntry(Number(entriesNbToDisplay))
         setEntriesNbToDisplay(Number(entriesNbToDisplay) + Number(nbToDisplaySelect.value))
     }
 
+    // Load previous entries based on curent entries and the number of entrie to display
     const handlePrevButton = () => {
         const nbToDisplaySelect = document.querySelector("#entries-to-display")
         setFirstEntry(firstEntry - Number(nbToDisplaySelect.value))
         setEntriesNbToDisplay(Number(entriesNbToDisplay) - Number(nbToDisplaySelect.value))
     }
     
+    // Triggered when user change : 
+    // the sorting type, the order (asc/decs), the entry number to display, employee search, new table page load
     useEffect(() => {
         const employeesCopy = filteredEmployeesList !== null ? filteredEmployeesList : [...employeesList]
 
@@ -206,10 +222,18 @@ export default function PrettyTable ({data, config}) {
                             </div>
                         )
                     }
-                    <p className="pt-filters-order">Order:<span
+                    <p className="pt-filters-order">
+                        Order:
+                        <span
                         id="pt-filters-order-value"
                         onClick={(e) => handleTableClick(sortingType, e)}
-                        className="pt-filters-value pt-filters-order-value">{ascending === null ? "+ recent" : ascending ? "ascending" : "descending"}</span>
+                        className="pt-filters-value pt-filters-order-value">{
+                            ascending === null ?
+                                "+ recent" :
+                                ascending ?
+                                    "ascending" :
+                                    "descending"
+                        }</span>
                     </p>
                     <p className="pt-filters-order">Total entries:<span className="pt-filters-value">{entriesNb}</span></p>
                     <p className="pt-filters-order">
@@ -269,7 +293,10 @@ export default function PrettyTable ({data, config}) {
                                 // Format employee object to return an array of object (ex: [{firstName: Tom}, {}, ... ]
                                 const employeeData = formatEmployees(employee)
                                 return (
-                                    <tr className="pretty-tbody-rows" id={`ptable-${randomId}-${i}`} key={`ptable-emp-tr-${employee[0]}-${i}`}>
+                                    <tr className="pretty-tbody-rows"
+                                        id={`ptable-${randomId}-${i}`} 
+                                        key={`ptable-emp-tr-${employee[0]}-${i}`}
+                                    >
                                         {
                                             employeeData.map((employee, i) => {
                                                 const id = employee.value.trim().toLowerCase().replace(/\s/g,"").split("/").join("")
@@ -315,10 +342,12 @@ export default function PrettyTable ({data, config}) {
                     > 
                         {
                             activeEntriesNb === 0 ? 
-                                `No ${showDataName ? `${config.dataName.toLowerCase()}(s)` : "entries"} matching search` :
-                                activeEntriesNb >= entriesNb ?
-                                    `Showing all ${showDataName && `${config.dataName.toLowerCase()}(s)`}` :
-                                    `Show more ${showDataName && `${config.dataName.toLowerCase()}(s)`}`
+                                `No ${showDataName ? 
+                                    `${config.dataName.toLowerCase()}(s)` : 
+                                    "entries"} matching search` :
+                                    activeEntriesNb >= entriesNb ?
+                                        `Showing all ${showDataName && `${config.dataName.toLowerCase()}(s)`}` :
+                                        `Show more ${showDataName && `${config.dataName.toLowerCase()}(s)`}`
                         }
                     </button>
                     <button
@@ -332,8 +361,7 @@ export default function PrettyTable ({data, config}) {
                                     activeEntriesNb === entriesNb ?
                                         "pt-footer-button-next no-action" :
                                         "pt-footer-button-next"
-                        }
-                    >
+                    }>
                         Next
                     </button>
                     </div>
@@ -341,8 +369,8 @@ export default function PrettyTable ({data, config}) {
                     Showing {firstEntry} to {activeEntriesNb} from {entriesNb} entries 
                     {
                         filteredEmployeesList !== null ?
-                            ` (filtered from ${employeesList.length} total entries)`
-                        : ""
+                            ` (filtered from ${employeesList.length} total entries)` :
+                            ""
                     }
                 </p>
             </div>
