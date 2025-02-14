@@ -36,6 +36,7 @@
     text-align: left;
     text-wrap: nowrap;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .pretty-table thead tr th.active {
@@ -129,6 +130,7 @@
 
 .pt-filters-order-value {
     width: 70px;
+    cursor: pointer;
 }
 
 .pt-filters-value {

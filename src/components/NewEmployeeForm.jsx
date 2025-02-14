@@ -6,8 +6,8 @@ import { NavLink } from "react-router"
 export default function NewEmployeeForm () {
     const [modalClosed, setModalClosed] = useState(true)
 
-    useEffect( () => {
-    }, [modalClosed])
+    // useEffect( () => {
+    // }, [modalClosed])
 
     const closeModal = () =>{
         setModalClosed(true)
