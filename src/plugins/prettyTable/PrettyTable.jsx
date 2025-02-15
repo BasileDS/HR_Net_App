@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useRef, useState } from "react"
 import getRandomId from "./utils/randomId"
 import { useEffect } from "react"
 
@@ -30,80 +30,52 @@ export default function PrettyTable ({data, config}) {
     const [firstEntry, setFirstEntry] = useState(0)
     const [entriesNb, setEntriesNb] = useState(null)
     const [entriesNbToDisplay, setEntriesNbToDisplay] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1)
     const [sortingType, setSortingType] = useState(null)
-    const [employeesList, setEmployeesList] = useState(data.data ? data.data : null)
+    const [employeesList] = useState(data.data ? data.data : null)
     const [sortedEmployeesList, setSortedEmployeesList] = useState(employeesList)
     const [filteredEmployeesList, setFilteredEmployeesList] = useState(null)
     
+    const activeNbToDisplayRef = useRef(5)
+    const activeCellFilterRef = useRef(null)
+    const prevCellFilterRef = useRef(null)
+
     const randomId = getRandomId(10)
     const activeEntriesNb = entriesNbToDisplay > entriesNb ? entriesNb : entriesNbToDisplay
 
     // Stores a part of table config into const
-    const showDataName = config.dataName && config.showDataName
-    const accentColor = config.accentColor && config.useAccentColor ? {
+        const accentColor = config.accentColor && config.useAccentColor ? {
         color: config.accentColor,
         borderColor: config.accentColor
     } : null
 
-    // Turn on dark theme based on table configuration (config.darkTheme = true)
-    const activateDarkTheme = () => {
-        const allTags = document.querySelectorAll(`#pt-table-${randomId} > *`)
-        allTags.forEach(tag => {
-            tag.style.color = "white"
-        })
-        
-        const searchBarInput = document.querySelector(`.pt-search-wrapper > input`)
-        searchBarInput.style.borderColor = "whitesmoke"
-        
-        const searchBarIcon = document.querySelector(`.pt-search-wrapper > img`)
-        searchBarIcon.style.filter = "invert(1)"
-        
-        const allFilters = document.querySelectorAll(`.pt-filters-order, .pt-filters-value`)
-        allFilters.forEach(filter => {
-            filter.style.borderColor = "whitesmoke"
-        })
-
-        const allRows = document.querySelectorAll(`.pretty-table tbody tr:nth-child(even)`)
-        allRows.forEach(row => {
-            row.style.backgroundColor = "#ffffff1c"
-        })
-
-        const tHead = document.querySelector(`thead`)
-        tHead.style.backgroundColor = "##ffffff2d"
-
-    }
-    /**
-     * Triggered on table thead cells click.
-     * Always displays ascending order is cell wasn't active before clicking.
-     * Toggle order or change filter based on clicked cell active or not.
-     */
+    // Triggered on table thead cells click.
     const handleTableClick = (type, e) => {
-        const nbToDisplaySelect = document.querySelector("#entries-to-display")
-        setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
+        setEntriesNbToDisplay(Number(entriesNbToDisplay))
         setFirstEntry(0)
-        
         setSortingType(type)
+        activeCellFilterRef.current = e.target
+        console.log(prevCellFilterRef, activeCellFilterRef)
 
-        const orderByFilterButton = document.querySelector("#pt-filters-order-value")
-        const filterClicked = e.target
-
-        if (orderByFilterButton === filterClicked) {
-            const cellAriaSort = document.querySelector("th.active")
-            toggleActiveFilter(cellAriaSort)
+        const cellAriaSort = activeCellFilterRef.current.getAttribute("aria-sort")
+        const isCellActive = cellAriaSort === "none" ? false : true        
+        
+        if (isCellActive) {
+            toggleActiveFilter(activeCellFilterRef.current)
         } else {
-            const cellAriaSort = filterClicked.getAttribute("aria-sort")
-            const isCellActive = cellAriaSort === "none" ? false : true        
-            isCellActive ? toggleActiveFilter(filterClicked) : changeFilterType(filterClicked)
+            changeFilterType(activeCellFilterRef.current)
         }
+    }
+    
+    const handleFilterOrderClick = () => {
+        toggleActiveFilter(activeCellFilterRef.current)
     }
     
     // Toogle current filter display order (ascending / descending)
     const toggleActiveFilter = (cell) => {
-
         if (cell === null) {
             return
         }
-
         const isAscending = cell.getAttribute("aria-sort")
         if (isAscending === "ascending") {
             setAscending(false)
@@ -117,28 +89,21 @@ export default function PrettyTable ({data, config}) {
     // Switch to a new filter. Displays data by ascending order
     const changeFilterType = (cell) => {
         setAscending(true)
-        const allCells = document.querySelectorAll(".pretty-thead-cells")
-        allCells.forEach(th => {
-            th.classList.remove("active")
-            th.setAttribute("aria-sort", "none")
-        })
+        prevCellFilterRef.current && prevCellFilterRef.current.classList.remove("active")
+        prevCellFilterRef.current && prevCellFilterRef.current.setAttribute("aria-sort", "none")
         cell.setAttribute("aria-sort", "ascending")
         cell.classList.add("active")
+
+        prevCellFilterRef.current = cell
     }
 
     // Change number of entrie to be displayed on the table
     const handleEntriesNbChange = (e) => {
-        const nbToDisplaySelect = document.querySelector("#entries-to-display")
-        const showMoreButton = document.querySelector("#pt-show-more-button")
-
-        if (e.target === showMoreButton) {
-            nbToDisplaySelect.value = Number(entriesNbToDisplay) + Number(entriesNbToDisplay)
-            setEntriesNbToDisplay(Number(nbToDisplaySelect.value))
-        } else {
             const selectValue = e.target.value
             setFirstEntry(0)
             setEntriesNbToDisplay(selectValue)
-        }
+            activeNbToDisplayRef.current = Number(e.target.value)
+            setCurrentPage(1)
     }
 
     // Filter table content based on search bar value
@@ -164,16 +129,16 @@ export default function PrettyTable ({data, config}) {
 
     // Load next entries based on curent entries and the number of entrie to display
     const handleNextButton = () => {
-        const nbToDisplaySelect = document.querySelector("#entries-to-display")
         setFirstEntry(Number(entriesNbToDisplay))
-        setEntriesNbToDisplay(Number(entriesNbToDisplay) + Number(nbToDisplaySelect.value))
+        setEntriesNbToDisplay(Number(entriesNbToDisplay) + activeNbToDisplayRef.current)
+        setCurrentPage(currentPage + 1)
     }
-
+    
     // Load previous entries based on curent entries and the number of entrie to display
     const handlePrevButton = () => {
-        const nbToDisplaySelect = document.querySelector("#entries-to-display")
-        setFirstEntry(firstEntry - Number(nbToDisplaySelect.value))
-        setEntriesNbToDisplay(Number(entriesNbToDisplay) - Number(nbToDisplaySelect.value))
+        setFirstEntry(firstEntry - activeNbToDisplayRef.current)
+        setEntriesNbToDisplay(Number(entriesNbToDisplay) - activeNbToDisplayRef.current)
+        setCurrentPage(currentPage - 1)
     }
     
     // Triggered when user change : 
@@ -199,9 +164,6 @@ export default function PrettyTable ({data, config}) {
 
         setSortedEmployeesList(sortedEmployeesToDisplay)
         setEntriesNb(sortedEmployees.length)
-        
-        config.darkTheme && activateDarkTheme()
-
     }, [sortingType, ascending, entriesNbToDisplay, filteredEmployeesList, firstEntry])
     
     return <>
@@ -226,7 +188,7 @@ export default function PrettyTable ({data, config}) {
                         Order:
                         <span
                         id="pt-filters-order-value"
-                        onClick={(e) => handleTableClick(sortingType, e)}
+                        onClick={(e) => handleFilterOrderClick(sortingType, e)}
                         className="pt-filters-value pt-filters-order-value">{
                             ascending === null ?
                                 "+ recent" :
@@ -245,9 +207,9 @@ export default function PrettyTable ({data, config}) {
                         className="pt-filters-value">
                             <option value="5">5</option>
                             <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="40">40</option>
-                            <option value="80">80</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                         entries
                     </p>
@@ -328,28 +290,7 @@ export default function PrettyTable ({data, config}) {
                     >
                         Prev
                     </button>
-                    <button 
-                        style={accentColor && accentColor}
-                        onClick={handleEntriesNbChange} 
-                        id="pt-show-more-button"
-                        className={
-                            activeEntriesNb === 0 ? 
-                            "search-no-match" :
-                            activeEntriesNb >= entriesNb ?
-                                "no-action" :
-                                "pt-footer-button"
-                        }
-                    > 
-                        {
-                            activeEntriesNb === 0 ? 
-                                `No ${showDataName ? 
-                                    `${config.dataName.toLowerCase()}(s)` : 
-                                    "entries"} matching search` :
-                                    activeEntriesNb >= entriesNb ?
-                                        `Showing all ${showDataName && `${config.dataName.toLowerCase()}(s)`}` :
-                                        `Show more ${showDataName && `${config.dataName.toLowerCase()}(s)`}`
-                        }
-                    </button>
+                    <p className="pt-filters-value">Page {currentPage}</p>
                     <button
                         style={accentColor && accentColor}
                         onClick={handleNextButton}

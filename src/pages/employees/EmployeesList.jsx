@@ -35,13 +35,10 @@ export default function EmployeesList () {
      * Configuration of the Pretty Table following the Pretty Table documentation
      */
     const config = {
-        darkTheme: false,
         accentColor: "#50a2ff",
         useAccentColor: true,
         showSearchBar: true,
-        searchBarToLeft: false,
-        dataName: "Employee",
-        showDataName: true
+        searchBarToLeft: false
     }
 
     return <>
