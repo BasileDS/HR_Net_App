@@ -23,25 +23,25 @@ export default function EmployeesHome () {
                 <h3 className="text-md">1.2. Sort employees</h3>
                 <p>
                     To sort employees, start by <Link to="/employees/employees-list" className="text-blue-500" >visiting the employees list page</Link>, then click on the data type you wish to sort.
-                    For instance, if you want to sort employees by <em>Last Name</em>, click on the table <span className="doc-object">Last Name</span> cell.
+                    For instance, if you want to sort employees by <em>Last Name</em>, click on the table <span className="doc-object text-nowrap">Last Name</span> cell.
                     It will automatically sort the employees by ascending order.
                     <br /><br />
                     To sort by descending order, click again on the current sorted data type and see the table showing the results displayed by descending order.
-                    Finally, you can also click on the <span className="doc-object">Order : <em>order</em></span> indicator to switch from ascending to descending order.
+                    Finally, you can also click on the <span className="doc-object text-nowrap">Order : <em>order</em></span> indicator to switch from ascending to descending order.
                     To do so, make sure to select a sorting data type before. If not, the table won't sort any data since it doesn't know on what data it needs to sort the data.
                 </p>
                 <h3 className="text-md">1.3. View more employees</h3>
                 <p>
                     To help you with your work, you can choose to display more employees per page by selecting the number of entries to display.
-                    To do it, just click the <span className="doc-object">Show XX entries</span> and select how much employees you would like to view at the same time.
+                    To do it, just click the <span className="doc-object text-nowrap">Show XX entries</span> and select how much employees you would like to view at the same time.
                 </p>
                 <h3 className="text-md">1.4. Navigate through employees pages</h3>
                 <p>
                     HR Net <em>View employees</em> module allows you to navigate through employees page by
-                    clicking the <span className="button">Prev</span> and <span className="button">Next</span> buttons at the bottom of the table.
+                    clicking the <span className="button text-nowrap">Prev</span> and <span className="button text-nowrap">Next</span> buttons at the bottom of the table.
                     As the table navigates through pages, the current page number is display between 
-                    the <span className="button">Prev</span> and <span className="button">Next</span> buttons on
-                    a <span className="doc-object">Page XX</span> indicator.
+                    the <span className="button text-nowrap">Prev</span> and <span className="button text-nowrap">Next</span> buttons on
+                    a <span className="doc-object text-nowrap">Page XX</span> indicator.
                 </p>
                 <br />
                 <div className="p-6 border-1 bg-blue-50 border-blue-100 rounded-lg relative">
@@ -57,7 +57,7 @@ export default function EmployeesHome () {
                 <h2 className="text-2xl">2. Add a new employee</h2>
                 <p> 
                     To add a new employee to the company database, <Link to="/employees/employees-list" className="text-blue-500" >access the Add new employee page</Link> and
-                    fill the form with the employee related data. As soon as all fields are filled, click on the <span className="button">Add new eployee</span> button.
+                    fill the form with the employee related data. As soon as all fields are filled, click on the <span className="button text-nowrap">Add new eployee</span> button.
                     A success message should show up !
                     If some data does not match the required type, a message will let you know how to process to make it work.
                 </p>
@@ -65,19 +65,15 @@ export default function EmployeesHome () {
             <div className="my-8">
                 <h2 className="text-2xl">Dev documentation</h2>
                 <p> 
-                    This web site has been build using ViteJS, ReactJS and PrettyTableDS library to enhance employees list view.
+                    This web site has been build using ReactJS and PrettyTableDS library to enhance employees list view.
                     If you plan to modify this code for further improvment, read the knwoledge base 
                     on the official <Link to="/employees/dev-doc" className="text-blue-500" >HR Net documentation</Link> and 
                     the <Link to="/employees/dev-doc" className="text-blue-500" >Pretty Table DS official documentation</Link>.
                     Ressources : <br /><br />
-                    <span className="doc-object">internal link</span> <Link to="/employees/dev-doc" className="underline" > HR Net documentation</Link> <br /><br />
-                    <span className="doc-object">external link</span> <Link to="/employees/dev-doc" className="underline" >Pretty Table DS official documentation</Link> 
+                    <Link to="/documentation" className="underline" > HR Net documentation</Link> <span className="doc-object text-nowrap">internal link</span> <br /><br />
+                    <Link to="/" className="underline" >Pretty Table DS official documentation</Link> <span className="doc-object text-nowrap">external link</span>
                 </p>
             </div>
-            <p>
-                
-                
-            </p>
         </div>
     </>
 }

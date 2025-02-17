@@ -7,6 +7,7 @@ import NewEmployee from './pages/employees/NewEmployee'
 import Employees from './pages/employees/Employees'
 import EmployeesList from './pages/employees/EmployeesList'
 import EmployeesHome from './pages/employees/EmployeesHome'
+import Documentation from './pages/doc/documentation'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             element: <NewEmployee />
           }
         ]
+      },
+      {
+        path: "/documentation",
+        element: <Documentation />
       }
     ]
   }
