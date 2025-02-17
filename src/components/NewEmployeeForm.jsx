@@ -2,6 +2,7 @@
 import states from "../assets/states.json"
 import { useState } from "react"
 import { NavLink } from "react-router"
+import ToPageButton from "./ToPageButton"
 
 export default function NewEmployeeForm () {
     const [modalClosed, setModalClosed] = useState(true)
@@ -162,7 +163,10 @@ export default function NewEmployeeForm () {
                         </div>
                     </div>
                 </fieldset>
-                <button type="submit" className="text-md font-semibold px-4 py-2 bg-blue-400 text-white rounded-3xl hover:bg-blue-300 w-full cursor-pointer">Create new employee</button>
+                <div className="flex flex-col items-center w-full">
+                    <button type="submit" className="text-sm px-5 py-1.5 bg-[#50a2ff] text-white w-fit rounded-2xl cursor-pointer">Create new employee</button>
+                    <ToPageButton path="/employees/employees-list" text={"See employees list"} type="outlined" />
+                </div>
             </form>
         </>
 }

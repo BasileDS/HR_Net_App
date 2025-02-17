@@ -1,4 +1,4 @@
-import NewEmployeeForm from "../../components/NewEmployeeForm";
+import NewEmployeeForm from "../../components/NewEmployeeForm"
 
 export default function NewEmployee () {
     return <>

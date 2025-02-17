@@ -3,6 +3,7 @@ import PrettyTable from "pretty-table-ds"
 
 // Import data either from mocked file (for testing purpose) or localStorage
 import employees from "./data/employees.json"
+import ToPageButton from "../../components/ToPageButton"
 
 export default function EmployeesList () {
     const localStorageEmployees = 
@@ -45,6 +46,7 @@ export default function EmployeesList () {
         <div className="w-full">
             <h1 className="text-2xl mb-6">All employees</h1>
             <PrettyTable data={data} config={config} />
+            <ToPageButton path="/employees/new-employee" text={"Add new employee"} type="outlined" />
         </div>
     </>
 }

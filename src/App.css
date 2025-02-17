@@ -93,6 +93,15 @@ header a:is(.active), header a:hover {
   font-weight: 500;
   border: 1px solid #073e7e;
   font-size: 13px;
-  padding: 2px 7px;
+  padding: 1px 7px 3px 7px;
+  border-radius: 25px;
+}
+
+.doc-pres-folder {
+  color: #1b222a;
+  font-weight: 400;
+  border: 1px solid #1b222a;
+  font-size: 10px;
+  padding: 1px 7px 3px 7px;
   border-radius: 25px;
 }

@@ -1,6 +1,6 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
-import PrettyTable from "pretty-table-ds";
+import PrettyTable from "pretty-table-ds"
 
 import { data, config} from "./data/docTablesData"
 

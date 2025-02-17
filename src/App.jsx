@@ -1,13 +1,13 @@
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import EmployeesAside from './components/EmployeesAside'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
 import NewEmployee from './pages/employees/NewEmployee'
 import Employees from './pages/employees/Employees'
 import EmployeesList from './pages/employees/EmployeesList'
 import EmployeesHome from './pages/employees/EmployeesHome'
 import Documentation from './pages/doc/documentation'
+import Home from './pages/Home'
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Outlet />
+        element: <Outlet />,
+        children: [
+          {
+            path: "/",
+            element: <Home />
+          }
+        ]
       },
       {
         path: "/employees",

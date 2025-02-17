@@ -1,4 +1,4 @@
-import EmployeesAside from "../../components/EmployeesAside";
+import EmployeesAside from "../../components/EmployeesAside"
 
 export default function Documentation () {
 
@@ -10,66 +10,71 @@ export default function Documentation () {
                 <div className="flex flex-col gap-5 w-full items-center">
                     <div className="max-w-[850px]">
                         <div className="flex flex-col gap-4 mb-8">
-                            <h1 className="text-3xl">HR Net documentation</h1>
+                            <h1 className="text-3xl">HR Net dev mode</h1>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <h2 className="text-2xl">1. Employees list</h2>
-                            <h3 className="text-md">1.1 View the employees list</h3>
                             <p>
-                                The HR Net allows company HR staff to <span to="/employees/employees-list" className="text-blue-500" >access the full employees list</span>.
-                                First ordered from the most recent add employee, the employees list can also be sorted by ascending or descending order.
+                                Welcome to the <em>HR Net</em> official documentation. Here we stand to gather all information dealing 
+                                with the HR Net App and HR Net further developpments. If you are new to it, read carefully this page before using the app.
                             </p>
-                            <h3 className="text-md">1.2. Sort employees</h3>
-                            <p>
-                                To sort employees, start by <span to="/employees/employees-list" className="text-blue-500" >visiting the employees list page</span>, then click on the data type you wish to sort.
-                                For instance, if you want to sort employees by <em>Last Name</em>, click on the table <span className="doc-object">Last Name</span> cell.
-                                It will automatically sort the employees by ascending order.
-                                <br /><br />
-                                To sort by descending order, click again on the current sorted data type and see the table showing the results displayed by descending order.
-                                Finally, you can also click on the <span className="doc-object">Order : <em>order</em></span> indicator to switch from ascending to descending order.
-                                To do so, make sure to select a sorting data type before. If not, the table won't sort any data since it doesn't know on what data it needs to sort the data.
-                            </p>
-                            <h3 className="text-md">1.3. View more employees</h3>
-                            <p>
-                                To help you with your work, you can choose to display more employees per page by selecting the number of entries to display.
-                                To do it, just click the <span className="doc-object">Show XX entries</span> and select how much employees you would like to view at the same time.
-                            </p>
-                            <h3 className="text-md">1.4. Navigate through employees pages</h3>
-                            <p>
-                                HR Net <em>View employees</em> module allows you to navigate through employees page by
-                                clicking the <span className="button">Prev</span> and <span className="button">Next</span> buttons at the bottom of the table.
-                                As the table navigates through pages, the current page number is display between 
-                                the <span className="button">Prev</span> and <span className="button">Next</span> buttons on
-                                a <span className="doc-object">Page XX</span> indicator.
-                            </p>
-                            <br />
-                            <div className="p-6 border-1 bg-blue-50 border-blue-100 rounded-lg relative">
-                                <p className="px-4 py-1 text-white absolute top-[-10px] left-[-5px] text-xs bg-blue-400 rounded-2xl">Try yourself</p>
-                                <p>Use the following table to see how it works.</p>
+                            <h2 className="text-2xl">HR Net architecture</h2>
+                            <div className="flex gap-7">
+                                <div className="flex flex-col gap-4">
+                                    <p>
+                                        The HR Net app is build using <em>ReactJS</em>, <em>React Router</em> and developped using ViteJS.
+                                    </p>
+                                    <p>
+                                        A custom <em>PrettyTableDS</em> library available on the NPM has been created and is been used to
+                                        enhance employees data presentation for Human Ressources services.
+                                    </p>
+                                    <p>
+                                        Its structure follows the React basics recommandation, using specific folders for pages, components and assets.
+                                        The <em>App.jsx</em> file allows us to configure the <em>React Router</em> while the <em>Main.jsx</em> file
+                                        displays the app on page <em>body</em>
+                                    </p>
+                                    <p>
+                                        At this stage of the App developpment, which is pretty early, the structure is not
+                                        fixed and can still change based on next developpment steps.
+                                    </p>
+                                </div>
+                                <div className="border mt-[10px] ml-[10px] border-stone-400 rounded-lg px-7 py-5 pt-8 relative min-w-[250px]">
+                                    <p className="bg-blue-400 text-white rounded-lg text-xs px-2 py-1 absolute top-[-10px] left-[-10px]">HR Net App Structure</p>
+                                    <p className="mb-2"><span className="doc-pres-folder ">HR Net App</span></p>
+                                    <p className="mb-2">_ <span className="doc-pres-folder ">src</span></p>
+                                    <p className="mb-2">_ _ <span className="doc-pres-folder ">assets</span></p>
+                                    <p className="mb-2">_ _ _ <span className="text-[10px] ">assets.svg</span></p>
+                                    <p>_ _ <span className="doc-pres-folder ">components</span></p>
+                                    <p className="mb-2">_ _ _ <span className="text-[10px] ">Component.jsx</span></p>
+                                    <p>_ _ <span className="doc-pres-folder ">pages</span></p>
+                                    <p className="mb-2">_ _ _ <span className="text-[10px] ">Page.jsx</span></p>
+                                    <p>_ _ <span className="text-[10px] ">App.jsx</span></p>
+                                    <p>_ _ <span className="text-[10px] ">App.css</span></p>
+                                    <p>_ _ <span className="text-[10px] ">Main.jsx</span></p>
+                                    <p>_ _ <span className="text-[10px] ">Main.css</span></p>
+                                    <p>_ _ <span className="text-[10px] ">index.html</span></p>
+                                </div>
                             </div>
-                            <div className="px-6 py-2 border-1 border-blue-200 rounded-lg relative">
-                            </div>
-                        </div>
-                        <br /><br />
-                        <div>
-                            <h2 className="text-2xl">2. Add a new employee</h2>
+                            <h2 className="text-2xl">HR Net features</h2>
+                            <div className="flex flex-col gap-4">
+                                <h2 className="text-md">Home page</h2>
+                                <p>
+                                    The HR Net app provides a very simple home page that gives access to all main pages and modules of the app.
+                                </p>
+                                <p>
+                                    Thus, you can navigate to <em>Employees List</em> to see all company employees, add a <em>new employee</em>,
+                                    or get on the <em>How to use HR Neet</em> to know more on how to wowrk with this solution.
+                                </p>
+                                <h2 className="text-md">New employee</h2>
+                                <p>
+                                    On the new employee page, HR services are able to fil a basic HTML form with a form validation provided by
+                                    browser if available on user browser. On form submit, a modal component is rendered to inform the user that 
+                                    the employee has been successfully created. Two buttons are displayed under the message to <em>add new employe</em> or
+                                    <em>view all employees</em>.
+                                </p>
+                            </div><br />
                             <p> 
-                                To add a new employee to the company database, <span to="/employees/employees-list" className="text-blue-500" >access the Add new employee page</span> and
-                                fill the form with the employee related data. As soon as all fields are filled, click on the <span className="button">Add new eployee</span> button.
-                                A success message should show up !
-                                If some data does not match the required type, a message will let you know how to process to make it work.
-                            </p>
-                        </div>
-                        <div className="my-8">
-                            <h2 className="text-2xl">Dev documentation</h2>
-                            <p> 
-                                This web site has been build using ViteJS, ReactJS and PrettyTableDS library to enhance employees list view.
-                                If you plan to modify this code for further improvment, read the knwoledge base 
-                                on the official <span to="/employees/dev-doc" className="text-blue-500" >HR Net documentation</span> and 
-                                the <span to="/employees/dev-doc" className="text-blue-500" >Pretty Table DS official documentation</span>.
-                                Ressources : <br /><br />
-                                <span className="doc-object">internal span</span> <span to="/employees/dev-doc" className="underline" >HR Net documentation</span> <br /><br />
-                                <span className="doc-object">external span</span> <span to="/employees/dev-doc" className="underline" >Pretty Table DS official documentation</span> 
+                                <strong>Other ressources : </strong><br /><br />
+                                <span className="doc-object text-nowrap">external span</span> <span to="/employees/dev-doc" className="underline" >Pretty Table DS official documentation</span> 
                             </p>
                         </div>
                     </div>

@@ -1,8 +1,7 @@
 import { useState } from "react"
-
+import { NavLink } from "react-router"
 
 import burger from "../assets/burger-menu.svg"
-import { NavLink } from "react-router"
 
 export default function EmployeeDropdownMenu () {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)

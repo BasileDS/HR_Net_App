@@ -1,5 +1,5 @@
-import { NavLink } from "react-router";
-import MainNav from "./MainNav";
+import { NavLink } from "react-router"
+import MainNav from "./MainNav"
 
 export default function Header () {
 
