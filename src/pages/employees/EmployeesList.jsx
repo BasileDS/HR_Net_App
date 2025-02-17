@@ -4,14 +4,17 @@ import PrettyTable from "pretty-table-ds"
 import employees from "./data/employees.json"
 
 export default function EmployeesList () {
-
-    // const localStorageEmployees = 
-    //     localStorage.getItem("HR-Net_Company-Employees") ?
-    //         localStorage.getItem("HR-Net_Company-Employees") :
-    //         JSON.stringify([])
+    const localStorageEmployees = 
+        localStorage.getItem("HR-Net_Company-Employees") ?
+            localStorage.getItem("HR-Net_Company-Employees") :
+            JSON.stringify([])
     // const employees = JSON.parse(localStorageEmployees)
 
-    // Set the Pretty Table columns
+    /**
+     * Object of two entries:
+     * 1. data : array of object(s). Data to be displayed on the Pretty Table component
+     * 2. columns : array of object(s). Set the title and data id of each Pretty Table component column(s).
+     */
     const data = {
         data: employees,
         columns: [
@@ -27,7 +30,9 @@ export default function EmployeesList () {
         ]
     }
 
-    // Config the Pretty Table
+    /**
+     * Object of key/value paired entries that sets the Pretty Table component configuration.
+     */
     const config = {
         accentColor: "#50a2ff",
         useAccentColor: true,

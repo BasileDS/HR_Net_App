@@ -1,16 +1,22 @@
 // List of USA States added to the form
 import states from "../assets/states.json"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { NavLink } from "react-router"
 
 export default function NewEmployeeForm () {
     const [modalClosed, setModalClosed] = useState(true)
 
+    /**
+     * Simple function that closes the add new employee success modal.
+     */
     const closeModal = () =>{
         setModalClosed(true)
     }
 
-    // Triggered on submit button click
+    /**
+     * Function that is triggered on add new employee form submit by clicking the "add new employee" button.
+     * @param {object} e - Event passed as an argument to get the form DOM element and store its inputs values in an object. The "data" object that gets the input values must have the same structure as the one used to display information on the Pretty Table component.
+     */
     const handleSubmitForm = (e) => {
         e.preventDefault()
         window.scroll(0, 0)
@@ -32,8 +38,10 @@ export default function NewEmployeeForm () {
         e.target.reset()
     }
 
-    // Get employees from LocalStorage or create empty array if it doesn't exist
-    // Add freshly created employee to Local Storage
+    /**
+     * Add freshly created employee to Local Storage as a stringyfied JSON with a "HR-Net_Company-Employees" key.
+     * @param {object} data 
+     */
     const addEmployeeToLocalStorage = (data) => {
         const localStorageEmployees = localStorage.getItem("HR-Net_Company-Employees") ?
             localStorage.getItem("HR-Net_Company-Employees") :
@@ -43,6 +51,9 @@ export default function NewEmployeeForm () {
         localStorage.setItem("HR-Net_Company-Employees", JSON.stringify(employeesData))
     }
     
+    /**
+     * The "modal" object allow us to give quick update to the add new employee success modal.
+     */
     const modal = {
         title: "Employee added",
         description: "You juste added a new employee to the database. What do you want to do now ?",
