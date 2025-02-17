@@ -25,11 +25,14 @@ footer {
 h1, h2, h3, h4, h5, h6 {
   font-family: Calibri, 'Trebuchet MS', sans-serif;
   font-weight: 700;
-  margin-bottom: 15px;
 }
 
-h1 {
-  font-size: x-large;
+h2 {
+  color: #0e54a3;
+}
+
+h3 {
+  color: #0e54a3;
 }
 
 aside {
@@ -45,10 +48,6 @@ form input, form select {
 
 form input:focus {
   outline: 0.1rem solid rgba(80, 110, 219, 0.299);
-}
-
-a:not(aside a, header a, .modal a) {
-  color: #50a2ff;
 }
 
 header a {
@@ -78,4 +77,22 @@ header a:is(.active), header a:hover {
   .dropdown-icon, .dropdown-nav {
     display: none;
   }
+}
+
+.button {
+  color: #50a2ff;
+  font-weight: 500;
+  border: 1px solid #50a2ff;
+  font-size: 13px;
+  padding: 2px 7px;
+  border-radius: 25px;
+}
+
+.doc-object {
+  color: #073e7e;
+  font-weight: 500;
+  border: 1px solid #073e7e;
+  font-size: 13px;
+  padding: 2px 7px;
+  border-radius: 25px;
 }
