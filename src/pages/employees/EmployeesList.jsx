@@ -42,7 +42,7 @@ export default function EmployeesList () {
 
     return <>
         <div className="w-full">
-            <h1 className="text-sm">All employees</h1>
+            <h1 className="text-2xl mb-6">All employees</h1>
             <PrettyTable data={data} config={config} />
         </div>
     </>
