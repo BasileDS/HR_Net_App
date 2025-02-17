@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <Employees />,
         children: [
           {
-            path: "",
+            path: "/employees/how-to-use-hrnet",
             element: <EmployeesHome />
           },
           {

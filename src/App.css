@@ -15,6 +15,7 @@ header {
 
 header h1 {
   margin: 0;
+  color: black;
 }
 
 footer {
@@ -33,7 +34,6 @@ h1 {
 
 aside {
   border-right: 0.1rem solid rgba(80, 110, 219, 0.299);
-  display: none;
 }
 
 form input, form select {
@@ -58,4 +58,24 @@ header a {
 
 header a:is(.active), header a:hover {
   color: #50a2ff;
+}
+
+@media (max-width: 981px) {
+  aside {
+    display: none;
+  }
+
+  .menu-nav-link {
+    display: none;
+  }
+
+  header a {
+    font-weight: 400;
+  }
+}
+
+@media (min-width: 980px) {
+  .dropdown-icon, .dropdown-nav {
+    display: none;
+  }
 }

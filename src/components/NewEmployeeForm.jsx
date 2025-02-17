@@ -1,26 +1,20 @@
 // List of USA States added to the form
 import states from "../assets/states.json"
-import { useEffect, useState } from "react"
+import { useRef, useState } from "react"
 import { NavLink } from "react-router"
 
 export default function NewEmployeeForm () {
     const [modalClosed, setModalClosed] = useState(true)
 
-    // useEffect( () => {
-    // }, [modalClosed])
-
     const closeModal = () =>{
         setModalClosed(true)
-        document.querySelectorAll("input, select").forEach(el => {
-            el.value = ""
-        })
     }
 
     // Triggered on submit button click
     const handleSubmitForm = (e) => {
         e.preventDefault()
         window.scroll(0, 0)
-
+        
         const formData = e.target
         const data = {
             firstName: formData.elements.firstName.value,
@@ -35,6 +29,7 @@ export default function NewEmployeeForm () {
         }
         addEmployeeToLocalStorage(data)
         setModalClosed(false)
+        e.target.reset()
     }
 
     // Get employees from LocalStorage or create empty array if it doesn't exist
@@ -89,15 +84,15 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col w-full">
                             <label htmlFor="firstName">First Name</label>
-                            <input id="firstName" type="text" placeholder=""/>
+                            <input id="firstName" type="text" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="lastName">Last Name</label>
-                            <input id="lastName" type="text" placeholder=""/>
+                            <input id="lastName" type="text" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="birthdate">Birthdate</label>
-                            <input id="birthdate" type="date"/>
+                            <input id="birthdate" type="date" required />
                         </div>
                     </div>
                 </fieldset>
@@ -106,17 +101,17 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col w-full">
                             <label htmlFor="street">Street</label>
-                            <input id="street" type="text" />
+                            <input id="street" type="text" required />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="city">City</label>
-                            <input id="city" type="text" />
+                            <input id="city" type="text" required />
                         </div>
                         </div>
                     <div className="flex gap-5">
                         <div className="flex flex-col w-full">
                             <label htmlFor="state">State</label>
-                            <select name="state" id="state">
+                            <select name="state" id="state" required >
                                 <option value="">Select a state</option>
                                 {
                                     states.map(state => {
@@ -132,7 +127,7 @@ export default function NewEmployeeForm () {
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="zipCode">Zip Code</label>
-                            <input id="zipCode" type="number" />
+                            <input id="zipCode" type="number" required />
                         </div>
                     </div>
                 </fieldset>
@@ -141,11 +136,11 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5">    
                         <div className="flex flex-col w-full">
                             <label htmlFor="startDate">Start date</label>
-                            <input id="startDate" type="date"/>
+                            <input id="startDate" type="date" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="startDate">Department</label>
-                            <select id="startDate" name="select">
+                            <select id="startDate" name="select" required >
                                 <option value="">Select a department</option>
                                 <option value="Sales">Sales</option>
                                 <option value="Marketing">Marketing</option>

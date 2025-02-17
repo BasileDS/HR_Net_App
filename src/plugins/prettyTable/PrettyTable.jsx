@@ -55,7 +55,6 @@ export default function PrettyTable ({data, config}) {
         setFirstEntry(0)
         setSortingType(type)
         activeCellFilterRef.current = e.target
-        console.log(prevCellFilterRef, activeCellFilterRef)
 
         const cellAriaSort = activeCellFilterRef.current.getAttribute("aria-sort")
         const isCellActive = cellAriaSort === "none" ? false : true        
