@@ -1,4 +1,4 @@
-import PrettyTable from "../../plugins/prettyTable/PrettyTable";
+import PrettyTable from "pretty-table-ds"
 
 // Import data either from mocked file (for testing purpose) or localStorage
 import employees from "./data/employees.json"
@@ -11,11 +11,7 @@ export default function EmployeesList () {
     //         JSON.stringify([])
     // const employees = JSON.parse(localStorageEmployees)
 
-    /**
-     * Description :
-     * params: @data object
-     * params: @columns array of objects { title : "", data: "" }
-     */
+    // Set the Pretty Table columns
     const data = {
         data: employees,
         columns: [
@@ -31,9 +27,7 @@ export default function EmployeesList () {
         ]
     }
 
-    /**
-     * Configuration of the Pretty Table following the Pretty Table documentation
-     */
+    // Config the Pretty Table
     const config = {
         accentColor: "#50a2ff",
         useAccentColor: true,
