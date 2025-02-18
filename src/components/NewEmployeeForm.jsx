@@ -85,15 +85,15 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col w-full">
                             <label htmlFor="firstName">First Name</label>
-                            <input id="firstName" type="text"  />
+                            <input id="firstName" type="text" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="lastName">Last Name</label>
-                            <input id="lastName" type="text"  />
+                            <input id="lastName" type="text" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="birthdate">Birthdate</label>
-                            <input id="birthdate" type="date"  />
+                            <input id="birthdate" type="date" required />
                         </div>
                     </div>
                 </fieldset>
@@ -102,17 +102,17 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5 w-full">
                         <div className="flex flex-col w-full">
                             <label htmlFor="street">Street</label>
-                            <input id="street" type="text"  />
+                            <input id="street" type="text" required />
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="city">City</label>
-                            <input id="city" type="text"  />
+                            <input id="city" type="text" required />
                         </div>
                         </div>
                     <div className="flex gap-5">
                         <div className="flex flex-col w-full">
                             <label htmlFor="state">State</label>
-                            <select name="state" id="state"  >
+                            <select name="state" id="state" required >
                                 <option value="">Select a state</option>
                                 {
                                     states.map(state => {
@@ -137,11 +137,11 @@ export default function NewEmployeeForm () {
                     <div className="flex gap-5">    
                         <div className="flex flex-col w-full">
                             <label htmlFor="startDate">Start date</label>
-                            <input id="startDate" type="date"  />
+                            <input id="startDate" type="date" required />
                         </div>
                         <div className="flex flex-col w-full">
                             <label htmlFor="startDate">Department</label>
-                            <select id="startDate" name="select"  >
+                            <select id="startDate" name="select" required >
                                 <option value="">Select a department</option>
                                 <option value="Sales">Sales</option>
                                 <option value="Marketing">Marketing</option>
