@@ -2,9 +2,7 @@ import { NavLink } from "react-router"
 import EmployeesAside from "../../components/EmployeesAside"
 
 export default function Documentation () {
-
     return <>
-
         <div className="flex w-full">
             <EmployeesAside />
             <div className="flex w-full justify-center p-[3em] overflow-hidden">
@@ -73,7 +71,7 @@ export default function Documentation () {
                                     <em>view all employees</em>.
                                 </p>
                             </div><br />
-                            <p className="flex flex-col gap-2"> 
+                            <div className="flex flex-col gap-2"> 
                                 <strong>Other ressources : </strong>
                                 <div>
                                     <span className="doc-object text-nowrap">external span</span> <NavLink to="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" className="underline" >Pretty Table DS official documentation</NavLink> 
@@ -81,7 +79,7 @@ export default function Documentation () {
                                 <div>
                                     <span className="doc-object text-nowrap">external span</span> <NavLink to="https://www.npmjs.com/package/pretty-table-ds" className="underline" >Pretty Table DS NPM Packages</NavLink> 
                                 </div>
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>

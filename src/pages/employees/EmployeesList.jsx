@@ -1,16 +1,11 @@
 import PrettyTable from "pretty-table-ds"
-// import PrettyTable from "../../prettyTable/PrettyTable"
 
-// Import data either from mocked file (for testing purpose) or localStorage
-import employees from "./data/employees.json"
 import ToPageButton from "../../components/ToPageButton"
+import { useSelector } from "react-redux"
+import { selectEmployeesList } from "../../app/employeesSlice"
 
 export default function EmployeesList () {
-    const localStorageEmployees = 
-        localStorage.getItem("HR-Net_Company-Employees") ?
-            localStorage.getItem("HR-Net_Company-Employees") :
-            JSON.stringify([])
-    // const employees = JSON.parse(localStorageEmployees)
+    const employees = useSelector(selectEmployeesList)
 
     /**
      * Object of two entries:
@@ -18,7 +13,7 @@ export default function EmployeesList () {
      * 2. columns : array of object(s). Set the title and data id of each Pretty Table component column(s).
      */
     const data = {
-        data: employees,
+        data: [...employees],
         columns: [
             { title: 'First Name', data: 'firstName' },
             { title: 'Last Name', data: 'lastName' },
