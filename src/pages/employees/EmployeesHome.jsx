@@ -73,7 +73,7 @@ export default function EmployeesHome () {
                     <span className="doc-object text-nowrap">internal link</span> <Link to="/documentation" className="underline" > HR Net documentation</Link>
                 </p>
 
-                <p className="flex flex-col gap-2 mt-6"> 
+                <div className="flex flex-col gap-2 mt-6"> 
                     <strong>Other ressources : </strong>
                     <div>
                         <span className="doc-object text-nowrap">external span</span> <Link to="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" className="underline" >Pretty Table DS official documentation</Link> 
@@ -81,7 +81,7 @@ export default function EmployeesHome () {
                     <div>
                         <span className="doc-object text-nowrap">external span</span> <Link to="https://www.npmjs.com/package/pretty-table-ds" className="underline" >Pretty Table DS NPM Packages</Link> 
                     </div>
-                </p>
+                </div>
             </div>
         </div>
     </>
