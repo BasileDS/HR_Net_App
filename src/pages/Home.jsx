@@ -12,8 +12,8 @@ export default function Home () {
                 <ToPageButton path="/employees/how-to-use-hrnet" text="How to use HR Net" type="outlined"/>
                 <ToPageButton path="/documentation" text="App documentation" type="outlined"/>
                 <h2 className="text-lg mt-5">Pretty Table Doc</h2>
-                <ToPageButton path="/documentation" text="Pretty Table documentation" type="outlined"/>
-                <ToPageButton path="/" text="Pretty Table Repository" type="outlined"/>
+                <ToPageButton path="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" text="Pretty Table documentation" type="outlined"/>
+                <ToPageButton path="/performances" text="Pretty Table Performances Comparison" type="outlined"/>
             </div>
         </div>
     </>

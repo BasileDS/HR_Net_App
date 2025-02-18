@@ -16,9 +16,13 @@ export default function EmployeeDropdownMenu () {
             isDropdownOpen &&
                 <div className="dropdown-nav gap-4 p-8 bg-white rounded-[3px] absolute left-0 top-15 w-full shadow-lg z-999 flex flex-col">
                     <NavLink onClick={handleMenuClick} to="/">Home</NavLink>
+                    <p>_____</p>
                     <NavLink onClick={handleMenuClick} to="/employees/how-to-use-hrnet">How to use HR Net</NavLink>
                     <NavLink onClick={handleMenuClick} to="/employees/employees-list">View employees list</NavLink>
                     <NavLink onClick={handleMenuClick} to="/employees/new-employee">Add new employee</NavLink>
+                    <p>_____</p>
+                    <NavLink onClick={handleMenuClick} to="/documentation">Documentation</NavLink>
+                    <NavLink onClick={handleMenuClick} to="/performances">Performances</NavLink>
                 </div>
         }
     </>

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router"
 import EmployeesAside from "../../components/EmployeesAside"
 
 export default function Documentation () {
@@ -74,7 +75,7 @@ export default function Documentation () {
                             </div><br />
                             <p> 
                                 <strong>Other ressources : </strong><br /><br />
-                                <span className="doc-object text-nowrap">external span</span> <span to="/employees/dev-doc" className="underline" >Pretty Table DS official documentation</span> 
+                                <span className="doc-object text-nowrap">external span</span> <NavLink to="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" className="underline" >Pretty Table DS official documentation</NavLink> 
                             </p>
                         </div>
                     </div>

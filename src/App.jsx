@@ -6,8 +6,9 @@ import NewEmployee from './pages/employees/NewEmployee'
 import Employees from './pages/employees/Employees'
 import EmployeesList from './pages/employees/EmployeesList'
 import EmployeesHome from './pages/employees/EmployeesHome'
-import Documentation from './pages/doc/documentation'
+import Documentation from './pages/doc/Documentation'
 import Home from './pages/Home'
+import Performances from './pages/doc/Performances'
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/documentation",
         element: <Documentation />
+      },
+      {
+        path: "/performances",
+        element: <Performances />
       }
     ]
   }
