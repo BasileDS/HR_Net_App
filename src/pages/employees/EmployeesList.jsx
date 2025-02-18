@@ -1,5 +1,5 @@
 import PrettyTable from "pretty-table-ds"
-// import PrettyTable from "../../plugin/prettyTable/PrettyTable"
+// import PrettyTable from "../../prettyTable/PrettyTable"
 
 // Import data either from mocked file (for testing purpose) or localStorage
 import employees from "./data/employees.json"
