@@ -68,10 +68,19 @@ export default function EmployeesHome () {
                     This web site has been build using ReactJS and PrettyTableDS library to enhance employees list view.
                     If you plan to modify this code for further improvment, read the knwoledge base 
                     on the official <Link to="/employees/dev-doc" className="text-blue-500" >HR Net documentation</Link> and 
-                    the <Link to="/employees/dev-doc" className="text-blue-500" >Pretty Table DS official documentation</Link>.
+                    the <Link to="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" className="text-blue-500" >Pretty Table DS official documentation</Link>.
                     Ressources : <br /><br />
-                    <Link to="/documentation" className="underline" > HR Net documentation</Link> <span className="doc-object text-nowrap">internal link</span> <br /><br />
-                    <Link to="/" className="underline" >Pretty Table DS official documentation</Link> <span className="doc-object text-nowrap">external link</span>
+                    <span className="doc-object text-nowrap">internal link</span> <Link to="/documentation" className="underline" > HR Net documentation</Link>
+                </p>
+
+                <p className="flex flex-col gap-2 mt-6"> 
+                    <strong>Other ressources : </strong>
+                    <div>
+                        <span className="doc-object text-nowrap">external span</span> <Link to="https://github.com/BasileDS/Pretty-Table/blob/main/README.md" className="underline" >Pretty Table DS official documentation</Link> 
+                    </div>
+                    <div>
+                        <span className="doc-object text-nowrap">external span</span> <Link to="https://www.npmjs.com/package/pretty-table-ds" className="underline" >Pretty Table DS NPM Packages</Link> 
+                    </div>
                 </p>
             </div>
         </div>

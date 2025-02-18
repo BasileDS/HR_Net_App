@@ -93,6 +93,7 @@ header a:is(.active), header a:hover {
   font-weight: 500;
   border: 1px solid #073e7e;
   font-size: 13px;
+  width: fit-content;
   padding: 1px 7px 3px 7px;
   border-radius: 25px;
 }
